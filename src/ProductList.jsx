@@ -1,10 +1,10 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { addToCart } from "./CartSlice";
+import { addItem } from "./CartSlice";
 
 const plants = [
-  // ---------------- INDOOR PLANTS ----------------
+  // INDOOR PLANTS
   {
     id: 1,
     name: "Snake Plant",
@@ -54,7 +54,7 @@ const plants = [
       "https://images.unsplash.com/photo-1604762524889-3e2fcc145683?auto=format&fit=crop&w=500&q=80",
   },
 
-  // ---------------- FLOWERING PLANTS ----------------
+  // FLOWERING PLANTS
   {
     id: 7,
     name: "Peace Lily",
@@ -104,7 +104,7 @@ const plants = [
       "https://images.unsplash.com/photo-1509423350716-97f9360b4e09?auto=format&fit=crop&w=500&q=80",
   },
 
-  // ---------------- SUCCULENT PLANTS ----------------
+  // SUCCULENT PLANTS
   {
     id: 13,
     name: "Aloe Vera",
@@ -158,7 +158,9 @@ const plants = [
 function ProductList() {
   const dispatch = useDispatch();
 
-  const cartItems = useSelector((state) => state.cart.items);
+  const cartItems = useSelector(
+    (state) => state.cart.items
+  );
 
   const cartCount = cartItems.reduce(
     (total, item) => total + item.quantity,
@@ -166,24 +168,37 @@ function ProductList() {
   );
 
   const handleAddToCart = (plant) => {
-    dispatch(addToCart(plant));
+    dispatch(addItem(plant));
   };
 
   const isInCart = (id) => {
-    return cartItems.some((item) => item.id === id);
+    return cartItems.some(
+      (item) => item.id === id
+    );
   };
 
-  const categories = [...new Set(plants.map((plant) => plant.category))];
+  const categories = [
+    ...new Set(
+      plants.map((plant) => plant.category)
+    ),
+  ];
 
   return (
     <div className="product-page">
       <nav className="navbar">
-        <div className="logo">Paradise Nursery</div>
+        <div className="logo">
+          Paradise Nursery
+        </div>
 
         <div className="nav-links">
           <Link to="/">Home</Link>
+
           <Link to="/plants">Plants</Link>
-          <Link to="/cart" className="cart-link">
+
+          <Link
+            to="/cart"
+            className="cart-link"
+          >
             🛒 Cart ({cartCount})
           </Link>
         </div>
@@ -193,18 +208,28 @@ function ProductList() {
         <h1>Our Plants</h1>
 
         <p className="intro-text">
-          Choose beautiful plants for your home and garden.
+          Choose beautiful plants for your
+          home and garden.
         </p>
 
         {categories.map((category) => (
-          <div className="category-section" key={category}>
+          <div
+            className="category-section"
+            key={category}
+          >
             <h2>{category} Plants</h2>
 
             <div className="product-grid">
               {plants
-                .filter((plant) => plant.category === category)
+                .filter(
+                  (plant) =>
+                    plant.category === category
+                )
                 .map((plant) => (
-                  <div className="product-card" key={plant.id}>
+                  <div
+                    className="product-card"
+                    key={plant.id}
+                  >
                     <img
                       src={plant.image}
                       alt={plant.name}
@@ -213,11 +238,15 @@ function ProductList() {
 
                     <h3>{plant.name}</h3>
 
-                    <p className="price">₹{plant.price}</p>
+                    <p className="price">
+                      ₹{plant.price}
+                    </p>
 
                     <button
                       className="add-cart-button"
-                      onClick={() => handleAddToCart(plant)}
+                      onClick={() =>
+                        handleAddToCart(plant)
+                      }
                       disabled={isInCart(plant.id)}
                     >
                       {isInCart(plant.id)
